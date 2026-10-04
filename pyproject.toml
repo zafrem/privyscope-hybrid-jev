@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "privyscope-hybrid-jev"
+version = "0.1.0"
+description = "Trained LoRA + decision-head scorer for privyscope PII candidates (single forward pass, no generation)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "privyscope" }]
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+torch = ["torch>=2.4", "transformers>=4.38", "peft>=0.10", "safetensors>=0.4", "huggingface_hub>=0.20"]
+dev = ["pytest>=7.0"]
+
+# Registers the stage with the privyscope core. Unconfigured it is a no-op.
+[project.entry-points."privyscope.stages"]
+jev = "privyscope_hybrid_jev.stage:default_stage"
+
+[project.urls]
+Homepage = "https://github.com/zafrem/privyscope-hybrid-jev"
+
+[tool.setuptools.packages.find]
+include = ["privyscope_hybrid_jev*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
